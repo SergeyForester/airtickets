@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Airtickets</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'css/css.css' %}">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+</head>
+<body>
+<div class="header">
+    <nav class="navbar navbar-default banner">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Airtickets</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+
+                <ul class="nav navbar-nav navbar-nav-primary">
+                    <li><a href="#">Домой</a></li>
+                    <li><a href="#">Билеты</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+    <div class="container">
+        <div class="message-box">
+            <p class="h3 intro-message-main">
+                Поиск дешевых авиабилетов
+            </p>
+            <p class="h4 intro-message-second">
+                Лучший способ купить авиабилеты дешево
+            </p>
+        </div>
+        <div class="search-form-box">
+            <form action="{% url 'search' %}" method="get" id='search' class="search-form" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="from" class="form-label">Аэропорт вылета</label>
+                    <select name="from" id="from" class="form-control">
+                        <option value="">Выберите Аэропорт</option>
+                        <option value="Москва (SVO)">Москва (SVO)</option>
+                        <option value="Москва (VKO)">Москва (VKO)</option>
+                        <option value="Москва (DME)">Москва (DME)</option>
+                        <option value="Рим (FCO)">Рим (FCO)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="to" class="form-label">Аэропорт прилета</label>
+                    <select name="from" id="to" class="form-control">
+                        <option value="">Выберите Аэропорт</option>
+                        <option value="Москва (SVO)">Москва (SVO)</option>
+                        <option value="Москва (VKO)">Москва (VKO)</option>
+                        <option value="Москва (DME)">Москва (DME)</option>
+                        <option value="Рим (FCO)">Рим (FCO)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="usr">Туда</label>
+                    <input type="text" class="form-control" name="date_from" placeholder="Туда">
+                </div>
+                <div class="form-group">
+                    <label for="pwd">Обратно</label>
+                    <input type="text" class="form-control" placeholder="Обратно" name="date_to">
+                </div>
+                <div class="form-group">
+                    <button type="submit" id='search-btn' class="btn btn-primary">Поиск Авиабилетов</button>
+                </div>
+
+            </form>
+            <div id="alert-box"></div>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="footer">
+    Airtickets Corporation. <br>
+    All right reserved
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker6').datetimepicker();
+        $('#datetimepicker7').datetimepicker({
+            useCurrent: false //Important! See issue #1075
+        });
+        $("#datetimepicker6").on("dp.change", function (e) {
+            $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+        });
+        $("#datetimepicker7").on("dp.change", function (e) {
+            $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+        });
+    });
+</script>
+<script src="{% static 'js/js.js' %}"></script>
+</body>
+</html>
