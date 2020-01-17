@@ -1,16 +1,12 @@
 # coding:utf-8
+import os, django
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "myapp.settings")
+django.setup()
+
 from airtickets import settings
-
-settings.configure()
-
 import requests
 from bs4 import BeautifulSoup
-
-
-
 from mainapp.models import Airport
-
-
 
 page = requests.get('https://en.wikipedia.org/wiki/List_of_busiest_airports_by_passenger_traffic')
 
