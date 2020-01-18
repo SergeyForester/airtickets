@@ -90,208 +90,27 @@
 
 <div class="container">
     <div class="results-list">
+
+        {% for element in result %}
         <div class="result-item">
             <div class="flight-info">
                 <div class="flight-info-item">
-                    <p class="h3">07:55</p>
-                    <p class="h5 disabled-text">Москва (SVO)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
+                    <p class="h3">{{ element.depature_time|date:'H:i' }}</p>
+                    <p class="h5 disabled-text">{{ element.flight.departure_point }}</p>
+                    <p class="h5 disabled-text">{{element.depature_time|date: 'Y-m-d'}}</p>
                 </div>
 
                 <div class="flight-info-item right-item">
-                    <p class="h3">13:15</p>
-                    <p class="h5 disabled-text">Амстердам (AMS)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
+                    <p class="h3">{{ element.arrival_time|date:'H:i' }}5</p>
+                    <p class="h5 disabled-text">{{ element.flight.to }}</p>
+                    <p class="h5 disabled-text">{{element.arrival_time|date: 'Y-m-d'}}</p>
                 </div>
 
             </div>
         </div>
+        {% endfor %}
 
-        <div class="result-item">
-            <div class="flight-info">
-                <div class="flight-info-item">
-                    <p class="h3">07:55</p>
-                    <p class="h5 disabled-text">Москва (SVO)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
 
-                <div class="flight-info-item right-item">
-                    <p class="h3">13:15</p>
-                    <p class="h5 disabled-text">Амстердам (AMS)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="result-item">
-            <div class="flight-info">
-                <div class="flight-info-item">
-                    <p class="h3">07:55</p>
-                    <p class="h5 disabled-text">Москва (SVO)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-
-                <div class="flight-info-item right-item">
-                    <p class="h3">13:15</p>
-                    <p class="h5 disabled-text">Амстердам (AMS)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="result-item">
-            <div class="flight-info">
-                <div class="flight-info-item">
-                    <p class="h3">07:55</p>
-                    <p class="h5 disabled-text">Москва (SVO)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-
-                <div class="flight-info-item right-item">
-                    <p class="h3">13:15</p>
-                    <p class="h5 disabled-text">Амстердам (AMS)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="result-item">
-            <div class="flight-info">
-                <div class="flight-info-item">
-                    <p class="h3">07:55</p>
-                    <p class="h5 disabled-text">Москва (SVO)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-
-                <div class="flight-info-item right-item">
-                    <p class="h3">13:15</p>
-                    <p class="h5 disabled-text">Амстердам (AMS)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="result-item">
-            <div class="flight-info">
-                <div class="flight-info-item">
-                    <p class="h3">07:55</p>
-                    <p class="h5 disabled-text">Москва (SVO)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-
-                <div class="flight-info-item right-item">
-                    <p class="h3">13:15</p>
-                    <p class="h5 disabled-text">Амстердам (AMS)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="result-item">
-            <div class="flight-info">
-                <div class="flight-info-item">
-                    <p class="h3">07:55</p>
-                    <p class="h5 disabled-text">Москва (SVO)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-
-                <div class="flight-info-item right-item">
-                    <p class="h3">13:15</p>
-                    <p class="h5 disabled-text">Амстердам (AMS)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="result-item">
-            <div class="flight-info">
-                <div class="flight-info-item">
-                    <p class="h3">07:55</p>
-                    <p class="h5 disabled-text">Москва (SVO)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-
-                <div class="flight-info-item right-item">
-                    <p class="h3">13:15</p>
-                    <p class="h5 disabled-text">Амстердам (AMS)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="result-item">
-            <div class="flight-info">
-                <div class="flight-info-item">
-                    <p class="h3">07:55</p>
-                    <p class="h5 disabled-text">Москва (SVO)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-
-                <div class="flight-info-item right-item">
-                    <p class="h3">13:15</p>
-                    <p class="h5 disabled-text">Амстердам (AMS)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="result-item">
-            <div class="flight-info">
-                <div class="flight-info-item">
-                    <p class="h3">07:55</p>
-                    <p class="h5 disabled-text">Москва (SVO)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-
-                <div class="flight-info-item right-item">
-                    <p class="h3">13:15</p>
-                    <p class="h5 disabled-text">Амстердам (AMS)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="result-item">
-            <div class="flight-info">
-                <div class="flight-info-item">
-                    <p class="h3">07:55</p>
-                    <p class="h5 disabled-text">Москва (SVO)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-
-                <div class="flight-info-item right-item">
-                    <p class="h3">13:15</p>
-                    <p class="h5 disabled-text">Амстердам (AMS)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="result-item">
-            <div class="flight-info">
-                <div class="flight-info-item">
-                    <p class="h3">07:55</p>
-                    <p class="h5 disabled-text">Москва (SVO)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-                <div class="flight-info-item right-item">
-                    <p class="h3">13:15</p>
-                    <p class="h5 disabled-text">Амстердам (AMS)</p>
-                    <p class="h5 disabled-text">16 фев 2020, вс</p>
-                </div>
-
-            </div>
-        </div>
     </div>
 </div>
 <div class="footer">

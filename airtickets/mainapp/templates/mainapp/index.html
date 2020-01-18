@@ -61,31 +61,29 @@
             <form action="{% url 'search' %}" method="get" id='search' class="search-form" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="from" class="form-label">Аэропорт вылета</label>
-                    <select name="from" id="from" class="form-control">
+                    <select name="from" id="from"  required class="form-control">
                         <option value="">Выберите Аэропорт</option>
-                        <option value="Москва (SVO)">Москва (SVO)</option>
-                        <option value="Москва (VKO)">Москва (VKO)</option>
-                        <option value="Москва (DME)">Москва (DME)</option>
-                        <option value="Рим (FCO)">Рим (FCO)</option>
+                        {% for option in options %}
+                            <option value="{{option.name}}">{{option.name}}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="to" class="form-label">Аэропорт прилета</label>
-                    <select name="from" id="to" class="form-control">
+                    <select name="to" id="to" required class="form-control">
                         <option value="">Выберите Аэропорт</option>
-                        <option value="Москва (SVO)">Москва (SVO)</option>
-                        <option value="Москва (VKO)">Москва (VKO)</option>
-                        <option value="Москва (DME)">Москва (DME)</option>
-                        <option value="Рим (FCO)">Рим (FCO)</option>
+                        {% for option in options %}
+                            <option value="{{option.name}}">{{option.name}}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="usr">Туда</label>
-                    <input type="text" class="form-control" name="date_from" placeholder="Туда">
+                    <input type="text" required class="form-control" id="date_from" name="date_from" placeholder="Туда">
                 </div>
                 <div class="form-group">
                     <label for="pwd">Обратно</label>
-                    <input type="text" class="form-control" placeholder="Обратно" name="date_to">
+                    <input type="text" required class="form-control" id="date_to" placeholder="Обратно" name="date_to">
                 </div>
                 <div class="form-group">
                     <button type="submit" id='search-btn' class="btn btn-primary">Поиск Авиабилетов</button>

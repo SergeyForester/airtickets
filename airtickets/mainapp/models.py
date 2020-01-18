@@ -17,7 +17,6 @@ class Airport(models.Model):
 
 
 class Flight(models.Model):
-    name = models.CharField(max_length=10)
     departure_point = models.ForeignKey(Airport, default='default_from', on_delete=models.CASCADE,
                                         related_name='Airport.name+')
     to = models.ForeignKey(Airport,default='default_to', on_delete=models.CASCADE, related_name='Airport.name+')
@@ -26,11 +25,12 @@ class Flight(models.Model):
 
 class Depature(models.Model):
     name = models.CharField(max_length=30)
+    flight = models.ForeignKey(Flight, on_delete=models.CASCADE, default=None)
     plane = models.CharField(max_length=50)
     depature_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
     number_of_seats = models.PositiveIntegerField()
-    seats = models.CharField(max_length=1000)  # это список, хранится в строке(json.dumps([Seat(), Seat()]))
+    seats = models.CharField(max_length=1000, default='[]')  # это список, хранится в строке(json.dumps([Seat(), Seat()]))
 
     def get_depature_info(self):
         return {'name': self.name, 'plane': self.plane, 'depature': self.depature_time, 'arrival': self.arrival_time}
