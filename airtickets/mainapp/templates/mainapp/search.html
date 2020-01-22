@@ -49,34 +49,33 @@
 
     <div class="container">
         <div class="search-form-box">
-            <form action="#" method="post" id='search' class="search-form" enctype="multipart/form-data">
+            <form action="{% url 'search' %}" method="get" id='search' class="search-form"
+                  enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="from" class="form-label">Аэропорт вылета</label>
-                    <select name="from" id="from" class="form-control">
+                    <select name="from" required id="from" class="form-control">
                         <option value="">Выберите Аэропорт</option>
-                        <option value="Москва (SVO)">Москва (SVO)</option>
-                        <option value="Москва (VKO)">Москва (VKO)</option>
-                        <option value="Москва (DME)">Москва (DME)</option>
-                        <option value="Рим (FCO)">Рим (FCO)</option>
+                        {% for option in options %}
+                        <option value="{{option.name}}">{{option.name}}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="to" class="form-label">Аэропорт прилета</label>
-                    <select name="from" id="to" class="form-control">
+                    <select name="from" required id="to" class="form-control">
                         <option value="">Выберите Аэропорт</option>
-                        <option value="Москва (SVO)">Москва (SVO)</option>
-                        <option value="Москва (VKO)">Москва (VKO)</option>
-                        <option value="Москва (DME)">Москва (DME)</option>
-                        <option value="Рим (FCO)">Рим (FCO)</option>
+                        {% for option in options %}
+                        <option value="{{option.name}}">{{option.name}}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="usr">Туда</label>
-                    <input type="text" class="form-control" name="date_from" placeholder="Туда">
+                    <input type="text" class="form-control" value="" required name="date_from" placeholder="Туда">
                 </div>
                 <div class="form-group">
                     <label for="pwd">Обратно</label>
-                    <input type="text" class="form-control" placeholder="Обратно" name="date_to">
+                    <input type="text" class="form-control" value="" required placeholder="Обратно" name="date_to">
                 </div>
                 <div class="form-group">
                     <button type="submit" id='search-btn' class="btn btn-primary">Поиск Авиабилетов</button>
@@ -94,18 +93,19 @@
         {% for element in result %}
         <div class="result-item">
             <div class="flight-info">
+                <p class="h4">{{element.flight.aircompany.name}} - {{element.flight.aircompany.rating}} отзывов</p>
                 <div class="flight-info-item">
                     <p class="h3">{{ element.depature_time|date:'H:i' }}</p>
-                    <p class="h5 disabled-text">{{ element.flight.departure_point }}</p>
-                    <p class="h5 disabled-text">{{element.depature_time|date: 'Y-m-d'}}</p>
+                    <p class="h5 disabled-text">{{ element.flight.departure_point.name }}</p>
+                    <p class="h5 disabled-text">{{element.depature_time|date:"Y-m-d"}}</p>
+                    <p class="h5 disabled-text">{{element.name}} - {{element.plane}}</p>
                 </div>
 
                 <div class="flight-info-item right-item">
-                    <p class="h3">{{ element.arrival_time|date:'H:i' }}5</p>
-                    <p class="h5 disabled-text">{{ element.flight.to }}</p>
-                    <p class="h5 disabled-text">{{element.arrival_time|date: 'Y-m-d'}}</p>
+                    <p class="h3">{{ element.arrival_time|date:'H:i' }}</p>
+                    <p class="h5 disabled-text">{{ element.flight.to.name }}</p>
+                    <p class="h5 disabled-text">{{element.arrival_time|date:"Y-m-d"}}</p>
                 </div>
-
             </div>
         </div>
         {% endfor %}
@@ -113,9 +113,12 @@
 
     </div>
 </div>
-<div class="footer">
-    Airtickets Corporation. <br>
-    All right reserved
+<div class="footer-box">
+    <div class="footer">
+        Airtickets Corporation. <br>
+        All right reserved
+    </div>
+
 </div>
 
 <script src="{% static 'js/js.js' %}"></script>

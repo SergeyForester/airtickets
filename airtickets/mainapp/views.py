@@ -9,7 +9,7 @@ from mainapp.models import Depature, Airport
 def main(request):
     options = Airport.objects.all()
 
-    return render(request, 'mainapp/index.html', {'options':options})
+    return render(request, 'mainapp/index.html', {'options': options})
 
 
 def search(request):
@@ -18,12 +18,13 @@ def search(request):
     date_from = request.GET['date_from']
     date_to = request.GET['date_to']
 
-    print(from_, type(from_))
-    print(to, type(to))
-    print(date_from, type(date_from))
-    print(date_to, type(date_to))
+    from_ = Airport.objects.get(name=from_).id
+    to = Airport.objects.get(name=to).id
 
     result = Depature.objects.filter(depature_time__date=datetime.datetime.strptime(date_from, '%Y-%m-%d'),
-                                      flight__departure_point = from_, flight__to = to )
+                                     flight__departure_point=from_, flight__to=to)
 
-    return render(request, 'mainapp/search.html', {'result':result})
+    options = Airport.objects.all()
+
+    return render(request, 'mainapp/search.html', {'result': result, 'date_from':date_from,
+                                                   'date_to':date_to, 'options':options})

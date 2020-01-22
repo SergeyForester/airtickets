@@ -213,7 +213,7 @@ body {
 }
 
 .flight-info {
-    position:relative;
+    position: relative;
 }
 
 
@@ -227,10 +227,23 @@ body {
 
 }
 
+@media only screen and (min-width: 481px) {
+    .footer-box {
+        height: 100%;
+    }
+    .footer {
+        position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    }
+}
+
 .footer {
     text-align: center;
     font-family: Calibri, sans-serif;
     font-size: 16px;
     background-color: #0D334A;
     color: white;
+
 }
