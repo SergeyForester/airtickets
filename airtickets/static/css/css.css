@@ -1,0 +1,249 @@
+.banner {
+    background: #2196f3 !important;
+    font-family: Lato, sans-serif;
+}
+
+.navbar-nav-primary {
+    text-transform: uppercase;
+}
+
+.navbar-form-search {
+    position: relative;
+}
+
+.navbar {
+    border-color: #2196f3 !important;
+}
+
+.navbar-form-search .form-control {
+    width: 250px;
+}
+
+.navbar-form-search .btn {
+    border: 0;
+    background: transparent;
+    font-size: 18px;
+}
+
+.navbar-form-search .btn:active, .navbar-form-search .btn:hover, .navbar-form-search .btn:focus {
+    color: #000;
+    outline: none;
+    box-shadow: none;
+}
+
+.navbar-form-search .search-form-container {
+    text-align: right;
+    position: absolute;
+    width: 300px;
+    overflow: hidden;
+    background: #fff;
+    right: 60px;
+    top: 0;
+    z-index: 9;
+    transition: all .3s ease-in-out;
+}
+
+.navbar-form-search .search-form-container.hdn {
+    width: 0;
+}
+
+.navbar-form-search .search-form-container .search-input-group {
+    width: 300px;
+}
+
+
+.navbar a {
+    color: white !important;
+}
+
+.navbar {
+    background-color: rgb(33, 150, 243) !important;
+}
+
+.header {
+    height: 100vh;
+    background: rgb(33, 150, 243);
+}
+
+.message-box {
+    text-align: center;
+    color: white;
+    margin-top: 20vh;
+    font-style: normal;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.intro-message-second {
+    font-weight: 300 !important;
+}
+
+.form-group {
+    display: inline-block !important;
+}
+
+.search-form {
+    position: relative;
+    display: inline-block;
+}
+
+.search-form label {
+    color: white;
+}
+
+.search-form-box {
+    text-align: center;
+}
+
+.btn {
+    background-color: #ed7a18 !important;
+    color: white;
+    height: 60px !important;
+}
+
+.form-control {
+    height: 60px !important;
+}
+
+.form-control {
+    border-radius: 0 !important;
+
+}
+
+.message-box {
+    margin-bottom: 40px;
+}
+
+
+@media only screen and (max-width: 480px) {
+    .form-group {
+        width: 49%;
+
+    }
+
+    .results-list {
+        margin-top: 40px;
+    }
+
+    .result-item {
+        width: 100%;
+    }
+
+    .search-header {
+        height: 65vh;
+    }
+
+    .intro-message-main {
+        font-size: 26px !important;
+    }
+}
+
+@media only screen and (min-width: 481px) {
+
+    .form-group {
+        width: 20%;
+
+    }
+
+    .intro-message-main {
+        font-size: 36px !important;
+    }
+
+    .search-header {
+        height: 20vh;
+    }
+}
+
+
+.search-header {
+    background-color: #2196f3;
+}
+
+@media only screen and (min-width: 481px) {
+    .search-header .form-group {
+        width: 19%;
+    }
+
+    .result-item {
+        width: 51%;
+    }
+}
+
+@media only screen and (min-width: 481px) {
+    .search-header {
+        width: 100%;
+        position: fixed;
+        z-index: 999;
+    }
+}
+
+
+@media only screen and (min-width: 481px) {
+    .results-list {
+        margin-top: 21vh;
+    }
+}
+
+
+.result-item {
+    border-radius: 10px;
+    padding: 30px;
+    background-color: white;
+    height: 100%;
+    margin: auto
+
+}
+
+body {
+    background-color: #EFF1F4 !important;
+}
+
+.disabled-text {
+    color: #A0B0B9 !important;
+}
+
+
+.flight-info-item {
+    display: inline-block;
+}
+
+.right-item {
+    position: absolute;
+    right: 0;
+}
+
+.flight-info {
+    position: relative;
+}
+
+
+.result-item {
+    margin-bottom: 30px;
+}
+
+.flight-line {
+    border-radius: 20px;
+    border: 5px solid #A0B0B9;
+
+}
+
+@media only screen and (min-width: 481px) {
+    .footer-box {
+        height: 100%;
+    }
+    .footer {
+        position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    }
+}
+
+.footer {
+    text-align: center;
+    font-family: Calibri, sans-serif;
+    font-size: 16px;
+    background-color: #0D334A;
+    color: white;
+
+}
