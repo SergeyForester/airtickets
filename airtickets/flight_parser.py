@@ -8,10 +8,11 @@ import requests
 from bs4 import BeautifulSoup
 from mainapp.models import Flight, Aircompany, Airport
 
-page = requests.get('https://www.aeroflot.ru/ru-ru/flight/ways_map_table')
+page = requests.get('https://www.aeroflot.ru/ru-ru/flight/ways_map_table', proxies={'https':'103.129.195.108:36112'})
 
 soup = BeautifulSoup(page.content, 'html.parser')
 
+print(soup.prettify())
 
 tables = soup.findAll("table", {'class':'tariff_list'})
 
