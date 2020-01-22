@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 from django.db import models
 
@@ -30,17 +31,10 @@ class Depature(models.Model):
     depature_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
     number_of_seats = models.PositiveIntegerField()
-    seats = models.CharField(max_length=1000, default='[]')  # это список, хранится в строке(json.dumps([Seat(), Seat()]))
 
     def get_depature_info(self):
         return {'name': self.name, 'plane': self.plane, 'depature': self.depature_time, 'arrival': self.arrival_time}
 
-    def unpack_seats(self):
-        print(self.seats)
-        return json.loads(self.seats)
-
-    # def get_number_of_avaliable_seats(self):
-    #     return self.number_of_seats - len(self.seats)
 
 
 class Person(models.Model):
@@ -57,16 +51,18 @@ class Person(models.Model):
 
 
 class SeatType(models.Model):
+    aircompany = models.ForeignKey(Aircompany, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     features = models.CharField(max_length=500)  # Это список
 
 
 class Seat(models.Model):
-    code = models.CharField(max_length=4)
+    code = models.CharField(max_length=3)
     type = models.ForeignKey(SeatType, on_delete=models.CASCADE)
     person = models.ForeignKey(Person, on_delete=models.CASCADE, default=Person)
     price = models.PositiveIntegerField()
     is_busy = models.BooleanField(default=False)
+    depature = models.ForeignKey(Depature, on_delete=models.CASCADE, default='')
 
     def book_seat(self, client):
         self.person = client
