@@ -7,6 +7,8 @@ from airtickets import settings
 import requests
 from bs4 import BeautifulSoup
 from mainapp.models import Flight, Aircompany, Airport
+from utils import find_dict_in_list
+
 
 page = requests.get('https://www.aeroflot.ru/ru-ru/flight/ways_map_table', proxies={'https':'103.129.195.108:36112'})
 
@@ -15,14 +17,6 @@ soup = BeautifulSoup(page.content, 'html.parser')
 print(soup.prettify())
 
 tables = soup.findAll("table", {'class':'tariff_list'})
-
-def find_dict_in_list(list, key):
-    r = ''
-    try:
-        r = next(item for item in list if item["to"] == key)
-    except Exception as err:
-        pass
-    return r
 
 
 parsed_data = []

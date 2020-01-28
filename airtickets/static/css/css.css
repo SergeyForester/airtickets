@@ -165,8 +165,10 @@
     }
 
     .result-item {
-        width: 51%;
+        width: 50%;
     }
+
+
 }
 
 @media only screen and (min-width: 481px) {
@@ -231,11 +233,12 @@ body {
     .footer-box {
         height: 100%;
     }
+
     .footer {
         position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
+        left: 0;
+        bottom: 0;
+        width: 100%;
     }
 }
 
@@ -246,4 +249,49 @@ body {
     background-color: #0D334A;
     color: white;
 
+}
+
+.result-item {
+    color: black !important;
+}
+
+.results-inline {
+    display: inline-block;
+}
+
+
+.empty-space {
+    height: 100%;
+}
+
+@media only screen and (min-width: 1201px) {
+    .result-info-details {
+        float: right;
+        width: 50%;
+        margin-top: -45%;
+    }
+
+    .result-item-ajax {
+        width:171%;
+    }
+
+}
+
+@media only screen and (min-width: 990px) and (max-width: 1200px) {
+    .result-info-details {
+        float: right;
+        width: 39%;
+        margin-top: -55%;
+    }
+
+    .result-item-ajax {
+        width:171%;
+    }
+}
+
+
+.result-info-details {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
 }

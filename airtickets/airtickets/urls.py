@@ -20,7 +20,8 @@ import mainapp.views as mainapp
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', mainapp.main, name='main'),
-    path('search', mainapp.search, name='search')
+    path('search', mainapp.search, name='search'),
+    path('ajax/flight_info', mainapp.ajax_flight_info, name="ajax_flight_info")
 ]
 
 

@@ -8,7 +8,6 @@
 
     <link rel="stylesheet" href="{% static 'css/css.css' %}">
 
-
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
@@ -91,24 +90,35 @@
     <div class="results-list">
 
         {% for element in result %}
-        <div class="result-item">
-            <div class="flight-info">
-                <p class="h4">{{element.flight.aircompany.name}} - {{element.flight.aircompany.rating}} отзывов</p>
-                <div class="flight-info-item">
-                    <p class="h3">{{ element.depature_time|date:'H:i' }}</p>
-                    <p class="h5 disabled-text">{{ element.flight.departure_point.name }}</p>
-                    <p class="h5 disabled-text">{{element.depature_time|date:"Y-m-d"}}</p>
-                    <p class="h5 disabled-text">{{element.name}} - {{element.plane}}</p>
+            <a href="#">
+                <div class="result-item" data-flight_id ="{{element.flight.id}}" data-aircomapany_id="{{element.flight.aircompany.id}}">
+                    <div class="flight-info">
+                        <p class="h4">{{element.flight.aircompany.name}} - {{element.flight.aircompany.rating}} отзывов</p>
+                        <div class="flight-info-item">
+                            <p class="h3">{{ element.depature_time|date:'H:i' }}</p>
+                            <p class="h5 disabled-text">{{ element.flight.departure_point.name }}</p>
+                            <p class="h5 disabled-text">{{element.depature_time|date:"Y-m-d"}}</p>
+                            <p class="h5 disabled-text">{{element.name}} - {{element.plane}}</p>
+                        </div>
+                        <div class="flight-info-item right-item">
+                            <p class="h3">{{ element.arrival_time|date:'H:i' }}</p>
+                            <p class="h5 disabled-text">{{ element.flight.to.name }}</p>
+                            <p class="h5 disabled-text">{{element.arrival_time|date:"Y-m-d"}}</p>
+                            {% for seats in depature_seats %}
+                                {% if seats.id == element.id %}
+                                    <p class="h4">Места есть</p>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
+            </a>
 
-                <div class="flight-info-item right-item">
-                    <p class="h3">{{ element.arrival_time|date:'H:i' }}</p>
-                    <p class="h5 disabled-text">{{ element.flight.to.name }}</p>
-                    <p class="h5 disabled-text">{{element.arrival_time|date:"Y-m-d"}}</p>
-                </div>
-            </div>
-        </div>
         {% endfor %}
+
+
+    </div>
+    <div id="result-info">
 
 
     </div>

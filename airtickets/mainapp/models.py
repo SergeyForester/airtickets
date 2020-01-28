@@ -8,7 +8,11 @@ from django.db import models
 
 class Aircompany(models.Model):
     name = models.CharField(max_length=200, unique=True)
+    description = models.CharField(max_length=10000, blank=True, null=True)
     rating = models.IntegerField()
+
+    def __str__(self):
+        return f'{self.name}'
 
 
 class Airport(models.Model):
@@ -21,7 +25,7 @@ class Flight(models.Model):
     departure_point = models.ForeignKey(Airport, default='default_from', on_delete=models.CASCADE,
                                         related_name='Airport.name+')
     to = models.ForeignKey(Airport,default='default_to', on_delete=models.CASCADE, related_name='Airport.name+')
-    aircompany = models.ForeignKey(Aircompany, on_delete=models.CASCADE)
+    aircompany = models.ForeignKey(Aircompany, on_delete=models.CASCADE, default='')
 
 
 class Depature(models.Model):
@@ -30,7 +34,6 @@ class Depature(models.Model):
     plane = models.CharField(max_length=50)
     depature_time = models.DateTimeField()
     arrival_time = models.DateTimeField()
-    number_of_seats = models.PositiveIntegerField()
 
     def get_depature_info(self):
         return {'name': self.name, 'plane': self.plane, 'depature': self.depature_time, 'arrival': self.arrival_time}
@@ -51,7 +54,7 @@ class Person(models.Model):
 
 
 class SeatType(models.Model):
-    aircompany = models.ForeignKey(Aircompany, on_delete=models.CASCADE)
+    aircompany = models.ForeignKey(Aircompany, on_delete=models.CASCADE, default='')
     name = models.CharField(max_length=100)
     features = models.CharField(max_length=500)  # Это список
 
@@ -59,10 +62,13 @@ class SeatType(models.Model):
 class Seat(models.Model):
     code = models.CharField(max_length=3)
     type = models.ForeignKey(SeatType, on_delete=models.CASCADE)
-    person = models.ForeignKey(Person, on_delete=models.CASCADE, default=Person)
+    person = models.ForeignKey(Person, on_delete=models.CASCADE, null=True, blank=True)
     price = models.PositiveIntegerField()
     is_busy = models.BooleanField(default=False)
     depature = models.ForeignKey(Depature, on_delete=models.CASCADE, default='')
+
+    def __str__(self):
+        return f'{self.code} {self.depature.name}'
 
     def book_seat(self, client):
         self.person = client
