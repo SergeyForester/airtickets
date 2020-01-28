@@ -37,7 +37,6 @@ def search(request):
         except:
             print('Exception')
 
-    print(depatures_seats)
 
     options = Airport.objects.all()
 
