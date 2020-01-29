@@ -25,17 +25,19 @@ def search(request):
     to = Airport.objects.get(name=to)
 
     utils.parse_departures(from_.code, to.code, date_from)
+    print(datetime.datetime.strptime(date_from, '%Y-%m-%d'))
+    result = Depature.objects.filter(
+                                     flight__departure_point=from_, flight__to=to)
 
-    result = Depature.objects.filter(depature_time__date=datetime.datetime.strptime(date_from, '%Y-%m-%d'),
-                                     flight__departure_point=from_.id, flight__to=to.id)
+    print(result)
 
     depatures_seats = []
 
-    for res in result:
-        try:
-            depatures_seats.append(Seat.objects.get(depature=res.id, is_busy=False))
-        except:
-            print('Exception')
+    # for res in result:
+    #     try:
+    #         depatures_seats.append(Seat.objects.get(depature=res.id, is_busy=False))
+    #     except:
+    #         print('Exception')
 
 
     options = Airport.objects.all()
