@@ -52,7 +52,7 @@ def ajax_flight_info(request):
     aircomapany_id = request.GET.get('aircomapany_id', None)
 
     aircompany = Aircompany.objects.get(id=aircomapany_id)
-    depature = Depature.objects.get(id=flight_id)
+    depature = Depature.objects.get(flight__id=flight_id)
 
     data = {
         'aircompany': aircompany.name,
