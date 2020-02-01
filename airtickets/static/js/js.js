@@ -32,3 +32,86 @@ $(window).scroll(function () { // изменение размеров хеаде
     }
 
 });
+
+$('.rating_icon').click(function () {
+    let aircomapany_id = $(this).data('aircomapany_id');
+    let rating = null;
+
+    console.log($(this).hasClass('rating_up'));
+
+    if ($(this).hasClass('rating_up')) {
+        rating = 'up';
+    } else if ($(this).hasClass('rating_down')) {
+        rating = 'down'
+    }
+
+    console.log(rating);
+
+
+    $.ajax({
+        url: 'ajax/aircompany_rating',
+        data: {
+            'aircomapany_id': aircomapany_id,
+            'rating': rating
+        },
+
+        dataType: 'json',
+        success: function (data) {
+            alert(data.message);
+        }
+    })
+});
+
+$(".result-item").click(function (event) {
+    if (!event.target.element == 'IMG') {
+        let flightId = $(this).data('flight_id');
+        let aircomapany_id = $(this).data('aircomapany_id');
+
+        console.log(flightId);
+
+
+        $(".results-list").addClass('results-inline');
+        $(".result-item").addClass('result-item-details');
+        $("#result-info").addClass('result-info-details-inline');
+        $('.result-item').addClass('result-item-ajax');
+
+        $(".result-info-details").html(`
+        <img src="/static/img/preloader.gif"></img>
+    `);
+
+        $.ajax({
+            url: '/ajax/flight_info',
+            data: {
+                'flight_id': flightId,
+                'aircomapany_id': aircomapany_id
+            },
+            dataType: 'json',
+            success: function (data) {
+
+                if (data) {
+                    $("#result-info").html(`
+              <div class="result-info-wrapper">
+                <div class="result-info-details">
+                    <div class="result-info-header">
+                      <p class="h5">${data.aircompany} - ${data.aircompany_rating}</p>
+                    </div>
+                    <p class="h4 disabled-text">Рейс ${data.flight_code} </p>
+                     <p class="h3">Из ${data.from} в ${data.to}</p> 
+                     <p class="h4">Время вылета ${new Date(data.date_from).toISOString()}, время прилета ${new Date(data.date_to).toISOString()}</p>
+                     <div class="result-info-aircompany_description">
+                         <p class="h5">
+                            ${data.aircompany_description}
+                         </p>
+                     </div>
+                     <div class="empty-space"></div>
+                </div>
+              </div>`);
+                }
+            }
+        });
+    }
+
+
+});
+
+
