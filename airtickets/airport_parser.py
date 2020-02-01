@@ -37,7 +37,8 @@ for row in parsed_data:
     print('name:', row['name'])
     print('code:', row['code'])
     print('location:', row['location'])
-    Airport.objects.create(name=row['name'], code=row['code'], location=row['location'])
+    if not len(Airport.objects.filter(code=row['code'])):
+        Airport.objects.create(name=row['name'], code=row['code'], location=row['location'])
 
     print()
 

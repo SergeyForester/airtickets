@@ -21,7 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', mainapp.main, name='main'),
     path('search', mainapp.search, name='search'),
-    path('ajax/flight_info', mainapp.ajax_flight_info, name="ajax_flight_info")
+    path('ajax/flight_info', mainapp.ajax_flight_info, name="ajax_flight_info"),
+    path('ajax/aircompany_rating', mainapp.ajax_aircompany_rating, name="ajax_aircompany_rating"),
 ]
 
 

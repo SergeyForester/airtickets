@@ -66,3 +66,30 @@ def ajax_flight_info(request):
     }
 
     return JsonResponse(data)
+
+
+def ajax_aircompany_rating(request):
+    aircompany = request.GET.get('aircomapany_id', None)
+    rating = request.GET.get('rating', None)
+
+    print(rating)
+
+    aircompany = Aircompany.objects.get(id=aircompany)
+
+    message = 'Возникла ошибка'
+
+    if rating == 'up':
+        aircompany.rating += 1
+        message = 'Рейтинг компании был повышен'
+
+    elif rating == 'down':
+        aircompany.rating -= 1
+        message = 'Рейтинг компании был понижен))'
+
+    aircompany.save()
+    data  = {
+        'message':message
+    }
+
+    return JsonResponse(data)
+

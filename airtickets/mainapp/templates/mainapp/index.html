@@ -19,6 +19,13 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+
+
 </head>
 <body>
 <div class="header">
@@ -58,13 +65,15 @@
             </p>
         </div>
         <div class="search-form-box">
-            <form action="{% url 'search' %}" method="get" id='search' class="search-form" enctype="multipart/form-data">
+            <form action="{% url 'search' %}" method="get" id='search' class="search-form"
+                  enctype="multipart/form-data">
+
                 <div class="form-group">
                     <label for="from" class="form-label">Аэропорт вылета</label>
-                    <select name="from" id="from"  required class="form-control">
+                    <select name="from" id="from" required class="form-control">
                         <option value="">Выберите Аэропорт</option>
                         {% for option in options %}
-                            <option value="{{option.name}}">{{option.name}}</option>
+                        <option value="{{option.name}}">{{option.name}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -73,18 +82,27 @@
                     <select name="to" id="to" required class="form-control">
                         <option value="">Выберите Аэропорт</option>
                         {% for option in options %}
-                            <option value="{{option.name}}">{{option.name}}</option>
+                        <option value="{{option.name}}">{{option.name}}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="usr">Туда</label>
-                    <input type="text" required class="form-control" id="date_from" name="date_from" placeholder="Туда">
+                    <label for="date_from">Туда</label>
+                    <div class='input-group date' id='datetimepicker6'>
+                        <input type='text' id="date_from" class="form-control" name="date_from">
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="pwd">Обратно</label>
-                    <input type="text" required class="form-control" id="date_to" placeholder="Обратно" name="date_to">
+                    <label for="date_to">Обратно</label>
+                    <div class='input-group date' id='datetimepicker7'>
+                        <input type='text' id="date_to" class="form-control" name='date_to'>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
                 </div>
+
                 <div class="form-group">
                     <button type="submit" id='search-btn' class="btn btn-primary">Поиск Авиабилетов</button>
                 </div>
@@ -103,16 +121,21 @@
 </div>
 
 <script type="text/javascript">
-    $(function () {
-        $('#datetimepicker6').datetimepicker();
-        $('#datetimepicker7').datetimepicker({
-            useCurrent: false //Important! See issue #1075
-        });
-        $("#datetimepicker6").on("dp.change", function (e) {
-            $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
-        });
-        $("#datetimepicker7").on("dp.change", function (e) {
-            $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+    $(document).ready(function () {
+        $(function () {
+            $('#datetimepicker6').datetimepicker({
+                format:'YYYY-MM-DD'
+            });
+            $('#datetimepicker7').datetimepicker({
+                useCurrent: false, //Important! See issue #1075
+                format:'YYYY-MM-DD'
+            });
+            $("#datetimepicker6").on("dp.change", function (e) {
+                $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+            });
+            $("#datetimepicker7").on("dp.change", function (e) {
+                $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+            });
         });
     });
 </script>
