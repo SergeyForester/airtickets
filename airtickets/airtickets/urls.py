@@ -23,6 +23,7 @@ urlpatterns = [
     path('search', mainapp.search, name='search'),
     path('ajax/flight_info', mainapp.ajax_flight_info, name="ajax_flight_info"),
     path('ajax/aircompany_rating', mainapp.ajax_aircompany_rating, name="ajax_aircompany_rating"),
+    path('ajax/departures_scrapper', mainapp.ajax_departures_scrapper, name="ajax_departures_scrapper"),
 ]
 
 

@@ -33,41 +33,18 @@ $(window).scroll(function () { // изменение размеров хеаде
 
 });
 
-$('.rating_icon').click(function () {
-    let aircomapany_id = $(this).data('aircomapany_id');
-    let rating = null;
-
-    console.log($(this).hasClass('rating_up'));
-
-    if ($(this).hasClass('rating_up')) {
-        rating = 'up';
-    } else if ($(this).hasClass('rating_down')) {
-        rating = 'down'
-    }
-
-    console.log(rating);
-
-
-    $.ajax({
-        url: 'ajax/aircompany_rating',
-        data: {
-            'aircomapany_id': aircomapany_id,
-            'rating': rating
-        },
-
-        dataType: 'json',
-        success: function (data) {
-            alert(data.message);
-        }
-    })
+$(document).click(function (event) {
+    console.log(event.target);
 });
 
-$(".result-item").click(function (event) {
-    if (!event.target.element == 'IMG') {
-        let flightId = $(this).data('flight_id');
-        let aircomapany_id = $(this).data('aircomapany_id');
+$('.results-list').on('click', '.result-item', function (event) {
+    console.log(event.target.tagName != 'IMG');
+    console.log(event.target.tagName);
+    if (!event.target.tagName != 'IMG') {
+        let departure_id = $(this).data('departure_id');
+        let aircompany_id = $(this).data('aircompany_id');
 
-        console.log(flightId);
+        console.log(departure_id);
 
 
         $(".results-list").addClass('results-inline');
@@ -82,8 +59,8 @@ $(".result-item").click(function (event) {
         $.ajax({
             url: '/ajax/flight_info',
             data: {
-                'flight_id': flightId,
-                'aircomapany_id': aircomapany_id
+                'departure_id': departure_id,
+                'aircompany_id': aircompany_id
             },
             dataType: 'json',
             success: function (data) {
@@ -115,3 +92,117 @@ $(".result-item").click(function (event) {
 });
 
 
+$('body').on('click', '.rating_icon', function () {
+    console.log('rating ');
+    let aircompany_id = $(this).data('aircompany_id');
+    let rating = null;
+
+    console.log($(this).hasClass('rating_up'));
+
+    if ($(this).hasClass('rating_up')) {
+        rating = 'up';
+    } else if ($(this).hasClass('rating_down')) {
+        rating = 'down'
+    }
+
+    console.log(rating);
+    console.log(aircompany_id);
+
+
+    $.ajax({
+        url: 'ajax/aircompany_rating',
+        data: {
+            'aircompany_id': aircompany_id,
+            'rating': rating
+        },
+
+        dataType: 'json',
+        success: function (data) {
+            alert(data.message);
+        }
+    })
+});
+
+
+
+let getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = window.location.search.substring(1),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        }
+    }
+};
+
+$(document).ready(function () {
+    console.log("Started parsing...");
+    from = getUrlParameter('from');
+    to = getUrlParameter('to');
+    date_from = getUrlParameter('date_from');
+    date_to = getUrlParameter('date_to');
+
+
+    if (from && to && date_from && date_to) {
+        console.log('ajax request');
+
+        $('.results-list').html(`
+        <div class="loader">
+            <div class="bar"></div>
+        </div>
+        `);
+
+        $.ajax({
+            url: '/ajax/departures_scrapper',
+            data: {
+                'from': from,
+                'to': to,
+                'date_from': date_from,
+                'date_to': date_to
+            },
+            dataType: 'json',
+            success: function (data) {
+                $('.results-list').html("");
+                for (let departure of data.departures) {
+                    el = $(`
+                        <a href="#">
+                            <div class="result-item" data-departure_id ="${departure.departure_id}" data-aircompany_id="${departure.aircompany_id}">
+                                <div class="flight-info">
+                                    <p class="h4">${departure.aircompany_name}
+                                        <a href="#">
+                                            <img src="/static/img/rep_plus.svg" class='rating_icon rating_up' data-aircompany_id="${departure.aircompany_id}" alt="">
+                                        </a>
+                                        <a href="#">
+                                            <img src="/static/img/rep_down.svg" class='rating_icon rating_down' data-aircompany_id="${departure.aircompany_id}" alt="">
+                                        </a>
+                                    </p>
+                                    <div class="flight-info-item">
+                                        <p class="h3">${departure.departure_time}</p>
+                                        <p class="h5 disabled-text">${departure.departure_point_name}</p>
+                                        <p class="h5 disabled-text">${departure.departure_date}</p>
+                                        <p class="h5 disabled-text">${departure.name} - ${departure.plane}</p>
+                                        <p class="h5 disabled-text">${departure.aircomany_rating} отзывов</p>
+                                    </div>
+                                    <div class="flight-info-item right-item">
+                                        <p class="h3">${departure.arrival_time}</p>
+                                        <p class="h5 disabled-text">${departure.arrival_point_name}</p>
+                                        <p class="h5 disabled-text">${departure.arrival_date}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    `);
+                    $('.results-list').append(el);
+                }
+            },
+            error: function (request, status, error) {
+                alert(request.responseText, status)
+            }
+        })
+    }
+});

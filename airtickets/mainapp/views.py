@@ -1,4 +1,5 @@
 import datetime
+import re
 
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -16,23 +17,23 @@ def main(request):
 
 
 def search(request):
-    from_ = request.GET['from']
-    to = request.GET['to']
-    date_from = request.GET['date_from']
-    date_to = request.GET['date_to']
-
-    from_ = Airport.objects.get(name=from_)
-    to = Airport.objects.get(name=to)
-
-    utils.parse_departures(from_.code, to.code, date_from)
-    print(datetime.datetime.strptime(date_from, '%Y-%m-%d'))
-    result = Depature.objects.filter(
-                                     flight__departure_point=from_, flight__to=to)
-
-    print(result)
-
-    depatures_seats = []
-
+    # from_ = request.GET['from']
+    # to = request.GET['to']
+    # date_from = request.GET['date_from']
+    # date_to = request.GET['date_to']
+    #
+    # from_ = Airport.objects.get(name=from_)
+    # to = Airport.objects.get(name=to)
+    #
+    # utils.parse_departures(from_.code, to.code, date_from)
+    # print(datetime.datetime.strptime(date_from, '%Y-%m-%d'))
+    # result = Depature.objects.filter(
+    #                                  flight__departure_point=from_, flight__to=to)
+    #
+    # print(result)
+    #
+    # depatures_seats = []
+    #
     # for res in result:
     #     try:
     #         depatures_seats.append(Seat.objects.get(depature=res.id, is_busy=False))
@@ -42,17 +43,58 @@ def search(request):
 
     options = Airport.objects.all()
 
-    return render(request, 'mainapp/search.html', {'result': result, 'date_from': date_from,
-                                                   'date_to': date_to, 'options': options,
-                                                   'depature_seats': depatures_seats})
+    return render(request, 'mainapp/search.html', {'options':options})
 
+
+def ajax_departures_scrapper(request):
+    from_ = request.GET.get('from', None)
+    to = request.GET.get('to', None)
+    date_from = request.GET.get('date_from', None)
+    date_to = request.GET.get('date_to', None)
+
+    from_ = re.sub('[+]', ' ', from_)
+    to = re.sub('[+]', ' ', to)
+
+    print(from_)
+    print(to)
+    print(date_from)
+    print(date_to)
+
+    from_ = Airport.objects.get(name=from_)
+    to = Airport.objects.get(name=to)
+
+    utils.parse_departures(from_.code, to.code, date_from)
+
+    result = Depature.objects.filter(depature_time__date=datetime.datetime.strptime(date_from, '%Y-%m-%d'),
+                                     flight__departure_point=from_,
+                                     flight__to=to)
+
+    data = {
+        'departures': [{'departure_id':departure.id,
+                        'aircompany_id':departure.flight.aircompany.id,
+                        'aircompany_name':departure.flight.aircompany.name,
+                        'departure_time':departure.depature_time.strftime("%H:%M"),
+                        'departure_point_name':departure.flight.departure_point.name,
+                        'departure_date':departure.depature_time.strftime("%Y-%m-%d"),
+                        'name':departure.name,
+                        'aircomany_rating':departure.flight.aircompany.rating,
+                        'arrival_time':departure.arrival_time.strftime("%H:%M"),
+                        'arrival_point_name':departure.flight.to.name,
+                        'arrival_date':departure.arrival_time.strftime("%Y-%m-%d")}
+                       for departure in result]
+    }
+
+    return JsonResponse(data)
 
 def ajax_flight_info(request):
-    flight_id = request.GET.get('flight_id', None)
-    aircomapany_id = request.GET.get('aircomapany_id', None)
+    departure_id = request.GET.get('departure_id', None)
+    aircomapany_id = request.GET.get('aircompany_id', None)
+
+    print(departure_id)
+    print(aircomapany_id)
 
     aircompany = Aircompany.objects.get(id=aircomapany_id)
-    depature = Depature.objects.get(flight__id=flight_id)
+    depature = Depature.objects.get(id=departure_id)
 
     data = {
         'aircompany': aircompany.name,
@@ -69,10 +111,11 @@ def ajax_flight_info(request):
 
 
 def ajax_aircompany_rating(request):
-    aircompany = request.GET.get('aircomapany_id', None)
+    aircompany = request.GET.get('aircompany_id', None)
     rating = request.GET.get('rating', None)
 
     print(rating)
+    print(aircompany)
 
     aircompany = Aircompany.objects.get(id=aircompany)
 
@@ -83,8 +126,11 @@ def ajax_aircompany_rating(request):
         message = 'Рейтинг компании был повышен'
 
     elif rating == 'down':
-        aircompany.rating -= 1
-        message = 'Рейтинг компании был понижен))'
+        if aircompany.rating != 0:
+            aircompany.rating -= 1
+            message = 'Рейтинг компании был понижен))'
+        else:
+            message = 'Рейтинг компании равен нулю'
 
     aircompany.save()
     data  = {
