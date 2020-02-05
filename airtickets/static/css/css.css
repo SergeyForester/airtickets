@@ -256,8 +256,15 @@ body {
 
 .results-inline {
     display: inline-block;
+
 }
 
+
+@media only screen and (min-width:990px ) {
+    .results-inline {
+        float: left;
+    }
+}
 
 .empty-space {
     height: 100%;
@@ -267,7 +274,7 @@ body {
     .result-info-details {
         float: right;
         width: 50%;
-        margin-top: -45%;
+        margin-top: 24vh;
     }
 
     .result-item-ajax {
@@ -280,7 +287,7 @@ body {
     .result-info-details {
         float: right;
         width: 39%;
-        margin-top: -55%;
+        margin-top: 24vh;
     }
 
     .result-item-ajax {
