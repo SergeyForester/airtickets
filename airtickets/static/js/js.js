@@ -226,6 +226,8 @@ $('body').on('click', '.filter', function () {
             </div>
         `);
 
+        
+
         $.ajax({
             url: '/ajax/results_filter',
             data: {
@@ -239,7 +241,7 @@ $('body').on('click', '.filter', function () {
             success: function (data) {
                 renderDepartures(data.departures);
             },
-            onerror: function () {
+            error: function () {
                 alert('Failed to render departures');
             }
 
