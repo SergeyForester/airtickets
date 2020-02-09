@@ -24,9 +24,12 @@ $(window).scroll(function () { // изменение размеров хеаде
         if ($(this).scrollTop() > 100) {
             $('.search-header').height('10vh');
             $('#search-navbar').hide();
+            $('.filters').hide();
         } else {
-            $('.search-header').height('20vh');
+            $('.search-header').height('22.5vh');
             $('#search-navbar').show(200);
+            $('.filters').show(200);
+
 
         }
     }
@@ -123,6 +126,40 @@ $('body').on('click', '.rating_icon', function () {
     })
 });
 
+function renderDepartures(data) {
+    $('.results-list').html("");
+                for (let departure of data) {
+                    el = $(`
+                        <a href="#">
+                            <div class="result-item" data-departure_id ="${departure.departure_id}" data-aircompany_id="${departure.aircompany_id}">
+                                <div class="flight-info">
+                                    <p class="h4">${departure.aircompany_name}
+                                        <a href="#">
+                                            <img src="/static/img/rep_plus.svg" class='rating_icon rating_up' data-aircompany_id="${departure.aircompany_id}" alt="">
+                                        </a>
+                                        <a href="#">
+                                            <img src="/static/img/rep_down.svg" class='rating_icon rating_down' data-aircompany_id="${departure.aircompany_id}" alt="">
+                                        </a>
+                                    </p>
+                                    <div class="flight-info-item">
+                                        <p class="h3">${departure.departure_time}</p>
+                                        <p class="h5 disabled-text">${departure.departure_point_name}</p>
+                                        <p class="h5 disabled-text">${departure.departure_date}</p>
+                                        <p class="h5 disabled-text">${departure.name} - ${departure.plane}</p>
+                                        <p class="h5 disabled-text">${departure.aircomany_rating} отзывов</p>
+                                    </div>
+                                    <div class="flight-info-item right-item">
+                                        <p class="h3">${departure.arrival_time}</p>
+                                        <p class="h5 disabled-text">${departure.arrival_point_name}</p>
+                                        <p class="h5 disabled-text">${departure.arrival_date}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    `);
+                    $('.results-list').append(el);
+                }
+}
 
 
 let getUrlParameter = function getUrlParameter(sParam) {
@@ -167,38 +204,7 @@ $(document).ready(function () {
             },
             dataType: 'json',
             success: function (data) {
-                $('.results-list').html("");
-                for (let departure of data.departures) {
-                    el = $(`
-                        <a href="#">
-                            <div class="result-item" data-departure_id ="${departure.departure_id}" data-aircompany_id="${departure.aircompany_id}">
-                                <div class="flight-info">
-                                    <p class="h4">${departure.aircompany_name}
-                                        <a href="#">
-                                            <img src="/static/img/rep_plus.svg" class='rating_icon rating_up' data-aircompany_id="${departure.aircompany_id}" alt="">
-                                        </a>
-                                        <a href="#">
-                                            <img src="/static/img/rep_down.svg" class='rating_icon rating_down' data-aircompany_id="${departure.aircompany_id}" alt="">
-                                        </a>
-                                    </p>
-                                    <div class="flight-info-item">
-                                        <p class="h3">${departure.departure_time}</p>
-                                        <p class="h5 disabled-text">${departure.departure_point_name}</p>
-                                        <p class="h5 disabled-text">${departure.departure_date}</p>
-                                        <p class="h5 disabled-text">${departure.name} - ${departure.plane}</p>
-                                        <p class="h5 disabled-text">${departure.aircomany_rating} отзывов</p>
-                                    </div>
-                                    <div class="flight-info-item right-item">
-                                        <p class="h3">${departure.arrival_time}</p>
-                                        <p class="h5 disabled-text">${departure.arrival_point_name}</p>
-                                        <p class="h5 disabled-text">${departure.arrival_date}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    `);
-                    $('.results-list').append(el);
-                }
+                renderDepartures(data.departures);
             },
             error: function (request, status, error) {
                 alert(request.responseText, status)
@@ -206,3 +212,39 @@ $(document).ready(function () {
         })
     }
 });
+
+$('body').on('click', '.filter', function () {
+    let filter_key = $(this).attr('id');
+    console.log(filter_key);
+
+    if (from && to && date_from && date_to) {
+        console.log('ajax request');
+
+        $('.results-list').html(`
+            <div class="loader">
+                <div class="bar"></div>
+            </div>
+        `);
+
+        $.ajax({
+            url: '/ajax/results_filter',
+            data: {
+                'from': from,
+                'to': to,
+                'date_from': date_from,
+                'date_to': date_to,
+                'filter_key': filter_key
+            },
+            dataType: 'json',
+            success: function (data) {
+                renderDepartures(data.departures);
+            },
+            onerror: function () {
+                alert('Failed to render departures');
+            }
+
+        })
+    }
+
+});
+

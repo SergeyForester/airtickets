@@ -77,54 +77,50 @@
                     <input type="text" class="form-control" value="" required placeholder="Обратно" name="date_to">
                 </div>
                 <div class="form-group">
-                    <button type="submit" id='search-btn' class="btn btn-primary">Поиск Авиабилетов</button>
+                    <button type="submit" id='search-btn' class="btn btn-search btn-primary">Поиск Авиабилетов</button>
                 </div>
 
             </form>
             <div id="alert-box"></div>
+        </div>
+        <div class="filters">
+            <p class="h4" style="display: inline">Фильтры:</p>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary btn-primary-bt dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    По времени вылету
+                </button>
+                <div class="dropdown-menu">
+                    <a href="#"><p class="filter h5" id="filter-departure-time-earliest">Сначала самые ранние</p></a>
+                    <a href="#"><p class="filter h5" id="filter-departure-time-latest">Сначала самые поздние</p></a>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary btn-primary-bt dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    По рейтингу компании
+                </button>
+                <div class="dropdown-menu">
+                    <a href="#"><p class="h5 filter" id="filter-company-rating-descending">По убыванию</p></a>
+                    <a href="#"><p class="h5 filter" id="filter-company-rating-ascending">По возрастанию</p></a>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary btn-primary-bt dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    По времени полета
+                </button>
+                <div class="dropdown-menu">
+                    <a href="#"><p class="h5 filter" id="filter-flight-time-descending">Сначала самые быстрые</p></a>
+                    <a href="#"><p class="h5 filter" id="filter-flight-time-ascending">Самые долгие полеты</p></a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <div class="container">
     <div class="results-list">
-
-<!--        {% for element in result %}-->
-<!--            <a href="#">-->
-<!--                <div class="result-item" data-flight_id ="{{element.flight.id}}" data-aircomapany_id="{{element.flight.aircompany.id}}">-->
-<!--                    <div class="flight-info">-->
-<!--                        <p class="h4">{{element.flight.aircompany.name}}-->
-<!--                            <a href="#">-->
-<!--                                <img src="{% static 'img/rep_plus.svg' %}" class='rating_icon rating_up' data-aircomapany_id="{{element.flight.aircompany.id}}" alt="">-->
-<!--                            </a>-->
-<!--                            <a href="#">-->
-<!--                                <img src="{% static 'img/rep_down.svg' %}" class='rating_icon rating_down' data-aircomapany_id="{{element.flight.aircompany.id}}" alt="">-->
-<!--                            </a>-->
-<!--                        </p>-->
-<!--                        <div class="flight-info-item">-->
-<!--                            <p class="h3">{{ element.depature_time|date:'H:i' }}</p>-->
-<!--                            <p class="h5 disabled-text">{{ element.flight.departure_point.name }}</p>-->
-<!--                            <p class="h5 disabled-text">{{element.depature_time|date:"Y-m-d"}}</p>-->
-<!--                            {% if element.name and element.plane %}-->
-<!--                                <p class="h5 disabled-text">{{element.name}} - {{element.plane}}</p>-->
-<!--                            {% endif %}-->
-<!--                            <p class="h5 disabled-text">{{element.flight.aircompany.rating}} отзывов</p>-->
-<!--                        </div>-->
-<!--                        <div class="flight-info-item right-item">-->
-<!--                            <p class="h3">{{ element.arrival_time|date:'H:i' }}</p>-->
-<!--                            <p class="h5 disabled-text">{{ element.flight.to.name }}</p>-->
-<!--                            <p class="h5 disabled-text">{{element.arrival_time|date:"Y-m-d"}}</p>-->
-<!--                            {% for seats in depature_seats %}-->
-<!--                                {% if seats.id == element.id %}-->
-<!--                                    <p class="h4">Места есть</p>-->
-<!--                                {% endif %}-->
-<!--                            {% endfor %}-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </a>-->
-
-<!--        {% endfor %}-->
 
 
     </div>
