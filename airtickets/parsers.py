@@ -1,10 +1,8 @@
 # coding:utf-8
 import re
-
+import datetime
 import requests
-
 from bs4 import BeautifulSoup
-
 from mainapp.models import Flight, Airport, Aircompany, Depature
 
 def parse_departures(from_, to, date_from):
@@ -28,6 +26,9 @@ def parse_departures(from_, to, date_from):
             plane = ''  # там нет названия самолета
             time_to = re.sub('[()]', '', f'{date_from} {card.find("span", {"class": "sr-time-arr"}).getText()}')
             aircompany = card.find("span", {"class": "airline-name-text"}).getText()
+
+            if datetime.datetime.strptime(time_from.split()[1], '%H:%M') > datetime.datetime.strptime(time_to.split()[1], '%H:%M'):
+                time_to = str(datetime.datetime.strptime(time_to, '%Y-%m-%d %H:%M') + datetime.timedelta(days=1))
 
 
             try:
@@ -56,6 +57,8 @@ def parse_departures(from_, to, date_from):
                     Flight.objects.create(departure_point=Airport.objects.get(code=from_),
                                   to=Airport.objects.get(code=to),
                                   aircompany=Aircompany.objects.get(name__contains=aircompany))
+
+
 
                     Depature.objects.create(name=name, plane=plane, depature_time=time_from, arrival_time=time_to,
                                      flight=flight)
