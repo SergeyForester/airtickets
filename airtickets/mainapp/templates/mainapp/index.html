@@ -115,6 +115,24 @@
     </div>
 </div>
 
+<div class="container">
+    <div class="results-list" style="margin-top: 10px">
+        <p class="h4" style="text-align: center">Ваши недавние запросы</p>
+        {% for element in history %}
+            <a href="#">
+                <div class="result-item">
+                    <div class="flight-info-item">
+                        <p style="display: inline" class="h3">{{element.departure}}</p> -
+                        <p style="display: inline" class="h3">{{element.arrival}}</p>
+                        <p style="display: inline" class="h4 disabled-text">{{element.date}}</p>
+                    </div>
+
+                </div>
+            </a>
+    {% endfor %}
+</div>
+</div>
+
 <div class="footer">
     Airtickets Corporation. <br>
     All right reserved
@@ -124,11 +142,11 @@
     $(document).ready(function () {
         $(function () {
             $('#datetimepicker6').datetimepicker({
-                format:'YYYY-MM-DD'
+                format: 'YYYY-MM-DD'
             });
             $('#datetimepicker7').datetimepicker({
                 useCurrent: false, //Important! See issue #1075
-                format:'YYYY-MM-DD'
+                format: 'YYYY-MM-DD'
             });
             $("#datetimepicker6").on("dp.change", function (e) {
                 $('#datetimepicker7').data("DateTimePicker").minDate(e.date);

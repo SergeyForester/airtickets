@@ -28,7 +28,7 @@ class Flight(models.Model):
     aircompany = models.ForeignKey(Aircompany, on_delete=models.CASCADE, default='')
 
 
-class Depature(models.Model):
+class Departure(models.Model):
     name = models.CharField(max_length=30)
     flight = models.ForeignKey(Flight, on_delete=models.CASCADE, default=None)
     plane = models.CharField(max_length=50)
@@ -65,7 +65,7 @@ class Seat(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE, null=True, blank=True)
     price = models.PositiveIntegerField()
     is_busy = models.BooleanField(default=False)
-    depature = models.ForeignKey(Depature, on_delete=models.CASCADE, default='')
+    departure = models.ForeignKey(Departure, on_delete=models.CASCADE, default='')
 
     def __str__(self):
         return f'{self.code} {self.depature.name}'

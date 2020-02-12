@@ -3,18 +3,35 @@ import re
 
 from django.http import JsonResponse
 from django.shortcuts import render
-from mainapp.models import Depature, Airport, Seat, Aircompany
+from mainapp.models import Departure, Airport, Seat, Aircompany
+from statsapp.models import SearchHistory
 import parsers
 import utils
-
+from django.contrib.gis import geoip2
 
 # Create your views here.
 
 
 def main(request):
+    ip = request.META.get('REMOTE_ADDR')
+
+    if not ip == '127.0.0.1':
+        try:
+            # user's location
+            g = geoip2.GeoIP2()
+            location = g.city(request.META.get('REMOTE_ADDR'))
+            print(location)
+
+        except geoip2.errors.AddressNotFoundError:
+            pass
+
+
     options = Airport.objects.all()
 
-    return render(request, 'mainapp/index.html', {'options': options})
+    history = SearchHistory.objects.filter(user=request.session.session_key)[:5]
+
+    return render(request, 'mainapp/index.html', {'options': options,
+                                                  'history':history})
 
 
 def search(request):
@@ -24,18 +41,36 @@ def search(request):
 
 
 def ajax_departures_scrapper(request):
+    # get GET attr
     from_ = request.GET.get('from', None)
     to = request.GET.get('to', None)
     date_from = request.GET.get('date_from', None)
 
+    # format airport's name
     from_ = re.sub('[+]', ' ', from_)
     to = re.sub('[+]', ' ', to)
 
     from_ = Airport.objects.get(name=from_)
     to = Airport.objects.get(name=to)
 
+
+    if not request.session.exists(request.session.session_key):
+        request.session.create()
+
+    user = request.session.session_key
+
+    print(user)
+
+    SearchHistory.objects.create(user=user,
+                                 departure=from_.code,
+                                 arrival=to.code,
+                                 date=date_from)
+
+
+    # parse departures
     parsers.parse_departures(from_.code, to.code, date_from)
 
+    # filter
     result = utils.get_departures(request)
 
     data = {
@@ -64,7 +99,7 @@ def ajax_flight_info(request):
     print(aircomapany_id)
 
     aircompany = Aircompany.objects.get(id=aircomapany_id)
-    depature = Depature.objects.get(id=departure_id)
+    depature = Departure.objects.get(id=departure_id)
 
     data = {
         'aircompany': aircompany.name,

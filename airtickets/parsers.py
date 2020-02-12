@@ -3,7 +3,7 @@ import re
 import datetime
 import requests
 from bs4 import BeautifulSoup
-from mainapp.models import Flight, Airport, Aircompany, Depature
+from mainapp.models import Flight, Airport, Aircompany, Departure
 
 def parse_departures(from_, to, date_from):
     print(from_, to, date_from)
@@ -38,10 +38,10 @@ def parse_departures(from_, to, date_from):
             except:
                 flight = None
 
-            if flight and not len(Depature.objects.filter(flight=flight,
+            if flight and not len(Departure.objects.filter(flight=flight,
                 depature_time=time_from)):  # если есть рейс, но нет вылета..
 
-                Depature.objects.create(name=name, plane=plane, depature_time=time_from, arrival_time=time_to,
+                Departure.objects.create(name=name, plane=plane, depature_time=time_from, arrival_time=time_to,
                                         flight=flight)
 
             # parsed_data.append({'time_from': time_from.strip(), 'name': name.strip(), 'plane': plane.strip(),
@@ -60,7 +60,7 @@ def parse_departures(from_, to, date_from):
 
 
 
-                    Depature.objects.create(name=name, plane=plane, depature_time=time_from, arrival_time=time_to,
+                    Departure.objects.create(name=name, plane=plane, depature_time=time_from, arrival_time=time_to,
                                      flight=flight)
 
                 except Exception as err:  # если нет такой авиакомпании, тогда создаем
@@ -70,7 +70,7 @@ def parse_departures(from_, to, date_from):
                                   to=Airport.objects.get(code=to).id,
                                   aircompany=Aircompany.objects.get(name__contains=aircompany).id)
 
-                    Depature.objects.create(name=name, plane=plane, depature_time=time_from, arrival_time=time_to,
+                    Departure.objects.create(name=name, plane=plane, depature_time=time_from, arrival_time=time_to,
                                      flight=flight)
 
 
@@ -84,5 +84,5 @@ def create_flight(departure_point, to, aircompany):
 
 
 def create_departure(name, plane, departure_time, arrival_time, flight):
-    Depature.objects.create(name=name, plane=plane, depature_time=departure_time, arrival_time=arrival_time,
+    Departure.objects.create(name=name, plane=plane, depature_time=departure_time, arrival_time=arrival_time,
                             flight=flight)
