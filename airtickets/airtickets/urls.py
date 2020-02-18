@@ -27,6 +27,7 @@ urlpatterns = [
     path('ajax/results_filter', mainapp.ajax_results_filter, name="ajax_departures_scrapper"),
 ]
 
+handler404 = mainapp.handler404
 
 from django.conf import settings
 from django.conf.urls.static import static
